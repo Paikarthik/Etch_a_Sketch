@@ -1,0 +1,9 @@
+.row {
+    display: flex;
+}
+
+.columns {
+    height: 16px;
+    width: 16px;
+    border: 1px solid black;
+}
