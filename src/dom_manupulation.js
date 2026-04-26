@@ -31,31 +31,62 @@ function getRandomColor() {
   return color;
 }
 
+
 function getSelectedColor(){
     if(blackSelected) return "Black"
-    else if(shaderSelected)
-    {
-
-    }
+    else if(shaderSelected) return "black";
     else return getRandomColor()
 }
 
 canvas.addEventListener("mouseover", (e) => {
     if (e.target.classList.contains("columns")) {
-        colorFiller = getSelectedColor();
-        e.target.style.backgroundColor = colorFiller;
+        if (shaderSelected) {
+            let currentOpacity = e.target.dataset.opacity;
+
+            if (!currentOpacity) {
+                currentOpacity = 0.1;
+            } else {
+                currentOpacity = parseFloat(currentOpacity) + 0.1;
+            }
+
+            if (currentOpacity > 1) currentOpacity = 1;
+
+            e.target.dataset.opacity = currentOpacity;
+            e.target.style.backgroundColor = `rgba(0, 0, 0, ${currentOpacity})`;
+
+        } else {
+            colorFiller = getSelectedColor();
+            e.target.style.backgroundColor = colorFiller;
+        }
     }
 });
 
 // Add event listners for the buttons 
 
-let blackButton = document.querySelector("black")
-let shaderButton = document.querySelector("shader")
-let rainbowButton = document.querySelector("rainbow")
-let alterCanvasSize = document.querySelector("alter")
+let blackButton = document.querySelector("#black")
+let shaderButton = document.querySelector("#shader")
+let rainbowButton = document.querySelector("#rainbow")
+let alterCanvasSize = document.querySelector("#alter")
 
 
 
 createGrid(sizeOfGrid);
+rainbowButton.addEventListener("click",(event)=>{
+    rainbowSelected = true;
+    blackSelected = false;
+    shaderSelected = false;
+})
+
+blackButton.addEventListener("click", () => {
+    blackSelected = true;
+    shaderSelected = false;
+    rainbowSelected = false;
+});
+
+shaderButton.addEventListener("click", () => {
+    shaderSelected = true;
+    blackSelected = false;
+    rainbowSelected = false;
+});
 
 
